@@ -10,13 +10,20 @@ Feel free to browse through the projects, play around with the tools, and learn 
 
 Current Projects:
 
-[Project 1 Name]: [Brief description of the project and its purpose]
+Crop Health Monitoring Dashboard: A web dashboard that connects to field sensors and monitors crop health. It tracks parameters such as soil moisture, temperature, nutrient levels, and pest presence. It helps farmers and agronomists manage their crops more effectively.
+
+Protein-Protein Interaction Network: A web tool that visualizes protein-protein interactions using Cytoscape.js. It lets researchers navigate the network, find important nodes, and study potential drug targets for diseases.
+
+Bioprocess Optimization Tool: A web application for bioreactor and fermentation research. It performs calculations and simulations based on the data entered by the researchers. It helps them find the optimal values for process parameters such as temperature, pH, and nutrient levels. This can improve the yield and efficiency of the bioprocesses.
 
 Technologies Used:
 
 JavaScript (NodeJS, ExpressJS, ReactJS and Firebase)
+
 [Other relevant technologies used]
+
 Getting Started:
+
 
 Clone the repository: git clone git@github.com:frontend720/JMBIOCODE.git
 Install required dependencies: npm install (or yarn install)
