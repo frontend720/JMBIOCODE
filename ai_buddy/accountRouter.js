@@ -2,7 +2,7 @@ const accountRouter = require("express").Router();
 const { v4: uuid } = require("uuid");
 const moment = require("moment");
 const { db } = require("./config");
-const { response } = require("express");
+
 
 accountRouter.post("/", (req, res) => {
   const data = {
@@ -31,6 +31,24 @@ accountRouter.post("/", (req, res) => {
     });
 });
 
+accountRouter.get("/:id", (req, res) => {
+  const id = req.params.id;
+  const userRef = db.collection("users").doc(id).get();
+  userRef
+    .then((user) => {
+      if (!user.exists) {
+        res
+          .status(400)
+          .send({ message: "Error retrieving user. User doesn't exist." });
+      } else {
+        res.status(200).send(user.data());
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err, code);
+    });
+});
+
 accountRouter.put("/:id", (req, res) => {
   const id = req.params.id;
   const data = {
@@ -45,11 +63,9 @@ accountRouter.put("/:id", (req, res) => {
   collectionRef
     .then((user) => {
       if (!user) {
-        res
-          .status(400)
-          .send({
-            message: "Unable to update account. Contact system administrator.",
-          });
+        res.status(400).send({
+          message: "Unable to update account. Contact system administrator.",
+        });
       } else {
         res.status(200).send(user);
       }

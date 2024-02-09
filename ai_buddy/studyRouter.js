@@ -4,24 +4,27 @@ const { openai, db } = require("./config");
 const { v4: uuid } = require("uuid");
 const moment = require("moment");
 
-studyRouter.post("/question/:id", (req, res) => {
-  const firestoreData = [];
+// Required data in request body: user ie. question, email | id
+
+studyRouter.post(`/question/:user`, (req, res) => {
+    const id = req.params.user
   let conversationData;
   let conversationQuestion;
-  const id = req.params.id;
+ 
 
 
   const data = {
     messages: [
       {
         role: "system",
-        content: `You are an educational tutor named ${req.body.tutor}, your job is to, in a casual, instructional format explain a given subject at an ${req.body.educational} level to ${req.body.user} in about 1400 tokens or less. When possible use data from Wikipedia.com, Dictionary.com and Google Scholar`,
+        content: `You are an educational tutor named ${req.body.tutor}, your job is to, in a casual, instructional format explain a given subject at an ${req.body.educational} level to ${req.body.username} in about 1400 tokens or less. When possible use data from Wikipedia.com, Dictionary.com and Google Scholar`,
       },
       { role: "user", content: req.body.question },
     ],
     model: "gpt-3.5-turbo",
     temperature: 0.4,
     max_tokens: 1400,
+    user: id
   };
   const chatCompletion = openai.chat.completions.create(data);
 
@@ -42,9 +45,12 @@ studyRouter.post("/question/:id", (req, res) => {
     });
 });
 
-studyRouter.put("/:id", (req, res) => {
-  const id = req.params.id;
 
+
+// Required data in request body:  question | user ie. email | id
+
+studyRouter.put("/", (req, res) => {
+  const id = req.params.id;
   const data = {
     question: req.body.question,
     editedTimestamp: moment().format("llll"),
@@ -54,7 +60,7 @@ studyRouter.put("/:id", (req, res) => {
     .collection("users")
     .doc(req.body.user)
     .collection("question")
-    .doc(id)
+    .doc(req.body.id)
     .set(data, { merge: true });
   collectionRef
     .then((question) => {
@@ -71,13 +77,14 @@ studyRouter.put("/:id", (req, res) => {
     });
 });
 
-studyRouter.delete("/:id", (req, res) => {
-  const id = req.params.id;
+// Requires username in request body for a successful request || study that further if needed.
+
+studyRouter.delete("/", (req, res) => {
   const collectionRef = db
     .collection("users")
     .doc(req.body.user)
     .collection("question")
-    .doc(id)
+    .doc(req.body.id)
     .delete();
   collectionRef
     .then((question) => {

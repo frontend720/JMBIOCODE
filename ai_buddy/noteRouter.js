@@ -3,6 +3,7 @@ const noteRouter = express.Router();
 const { db } = require("./config");
 const { v4: uuid } = require("uuid");
 const moment = require("moment");
+const color = require("randomcolor")
 
 noteRouter.post("/", (req, res) => {
   const noteId = uuid();
@@ -10,6 +11,7 @@ noteRouter.post("/", (req, res) => {
     id: noteId,
     note: req.body.note,
     timestamp: moment().format("llll"),
+    tabcolor: color,
     title: req.body.title,
   };
   const colletionRef = db
