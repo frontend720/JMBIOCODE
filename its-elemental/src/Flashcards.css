@@ -1,0 +1,8 @@
+.flashcard_container{
+    background-color: #902C3E;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0
+}
