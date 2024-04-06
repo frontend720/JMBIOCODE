@@ -4,7 +4,7 @@ export default function Flashcards(){
 
     return(
         <div className="flashcard_container">
-
+            {/* Make flashcards */}
         </div>
     )
 }
